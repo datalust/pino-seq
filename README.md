@@ -15,7 +15,6 @@ let stream = pinoToSeq.createStream({serverUrl: "http://localhost:5341"});
 let logger = pino({name: "pino-seq example"}, stream);
 
 logger.info("Hello Seq, from Pino");
-logger.error(); // should emit an error
 
 let frLogger = logger.child({lang: "fr"});
 frLogger.warn("au reviour");
