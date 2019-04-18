@@ -1,27 +1,18 @@
 "use strict";
 
-let bunyan = require('bunyan');
-let seq = require('../index');
+let pino = require('pino');
+let pinoToSeq = require('../index');
 
-var log = bunyan.createLogger({
-    name: 'myapp',
-    streams: [
-        {
-            stream: process.stdout,
-            level: 'warn',
-        },
-        seq.createStream({
-            serverUrl: 'http://localhost:5341',
-            level: 'info',
-            reemitErrorEvents: true
-        })
-    ]
-});
 
-log.on('error', function(err, stream){
-    console.log('Logging failed:', err);
-});
+function onError(err, stream) {
+  console.log("Logging failed: ", err);
+}
 
-log.info('hi');
-log.warn({lang: 'fr'}, 'au revoir');
+let stream = pinoToSeq.createStream({serverUrl: "http://localhost:5341", onError});
+let logger = pino({name: "pino-seq example"}, stream);
 
+logger.info("Hello Seq, from Pino");
+logger.error(); // should emit an error
+
+let frLogger = logger.child({lang: "fr"});
+frLogger.warn("au reviour");

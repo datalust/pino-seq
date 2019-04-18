@@ -1,7 +1,7 @@
 {
-  "name": "bunyan-seq",
+  "name": "pino-seq",
   "version": "0.4.0",
-  "description": "A Bunyan stream that sends log events to Seq",
+  "description": "A stream that sends Pino log events to Seq",
   "main": "index.js",
   "scripts": {
     "test": "node ./node_modules/mocha/bin/mocha",
@@ -9,20 +9,20 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/continuousit/bunyan-seq.git"
+    "url": "git+https://github.com/simihartstein/pino-seq.git"
   },
   "keywords": [
-    "bunyan",
+    "pino",
     "seq"
   ],
-  "author": "Continuous IT and contributors",
+  "author": "Continuous IT, Simi Hartstein, and contributors",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/continuousit/bunyan-seq/issues"
+    "url": "https://github.com/simihartstein/pino-seq/issues"
   },
-  "homepage": "https://github.com/continuousit/bunyan-seq#readme",
+  "homepage": "https://github.com/simihartstein/pino-seq#readme",
   "devDependencies": {
-    "bunyan": "^1.8.0",
+    "pino": "^5.12.2",
     "mocha": "^5.2.0"
   },
   "dependencies": {

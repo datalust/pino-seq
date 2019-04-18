@@ -1,17 +1,10 @@
 "use strict";
 
-let SeqStream = require('./seq_stream');
+let pinoSeqStream = require('./pinoSeqStream');
 
 module.exports = {
-    createStream: config => {
-        config = config || {};
-        var stream = new SeqStream(config);
-        return {
-            name: config.name,
-            level: config.level,
-            type: 'raw',
-            stream: stream,
-            reemitErrorEvents: config.reemitErrorEvents
-        };
-    }
+  createStream: config => {
+    config = config || {};
+    return new PinoSeqStream(config);
+  }
 };
