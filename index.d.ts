@@ -1,3 +1,4 @@
+import { Writable } from "stream";
 
 export interface SeqConfig {
   serverUrl ?: string;
@@ -7,3 +8,8 @@ export interface SeqConfig {
   batchSizeLimit ?: number;
   onError ?: (e: Error) => void
 }
+
+
+declare function createStream(config: SeqConfig): Writable
+
+export default createStream;

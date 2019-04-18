@@ -4,7 +4,7 @@ let pino = require('pino');
 let pinoToSeq = require('../index');
 
 
-function onError(err, stream) {
+function onError(err) {
   console.log("Logging failed: ", err);
 }
 

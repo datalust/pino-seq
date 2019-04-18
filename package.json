@@ -26,6 +26,7 @@
     "mocha": "^5.2.0"
   },
   "dependencies": {
+    "@types/pino": "^5.8.6",
     "seq-logging": "^0.4.0"
   }
 }
