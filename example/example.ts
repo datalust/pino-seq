@@ -1,17 +1,13 @@
-import Pino, { LoggerOptions, Logger } from "pino"
-import createStream from ".."
+import * as Pino from "pino"
+import * as PinoSeq from ".."
 
 
-const onError = (err:Error) => {
-  console.log("Logging failed: ", err);
-}
+const stream = PinoSeq.createStream({serverUrl: "http://localhost:5341"});
 
-const stream = createStream({serverUrl: "http://localhost:5341", onError});
-
-const options: LoggerOptions = {
+const options: Pino.LoggerOptions = {
   name: "pino-seq example"
 }
-const logger: Logger = Pino(options, stream);
+const logger: Pino.Logger = Pino(options, stream);
 
 logger.info("Hello Seq, from Pino");
 
