@@ -5,8 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "node ./node_modules/mocha/bin/mocha",
+    "test:cli": "node ./test/cli_tests.js | node ./cli.js",
     "start": "node ./example/example.js",
     "start:ts": "ts-node ./example/example.ts"
+  },
+  "bin": {
+    "pino-seq": "./cli.js"
   },
   "repository": {
     "type": "git",
@@ -30,6 +34,8 @@
   },
   "dependencies": {
     "@types/pino": "^5.8.6",
-    "seq-logging": "^0.4.0"
+    "commander": "^2.20.0",
+    "seq-logging": "^0.4.0",
+    "split2": "^3.1.1"
   }
 }
