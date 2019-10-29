@@ -1,6 +1,6 @@
 {
   "name": "pino-seq",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "description": "A stream that sends Pino log events to Seq",
   "main": "index.js",
   "scripts": {
@@ -14,18 +14,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/simihartstein/pino-seq.git"
+    "url": "git+https://github.com/datalust/pino-seq.git"
   },
   "keywords": [
     "pino",
     "seq"
   ],
-  "author": "Continuous IT, Simi Hartstein, and contributors",
+  "author": "Datalust, Simi Hartstein, and contributors",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/simihartstein/pino-seq/issues"
+    "url": "https://github.com/datalust/pino-seq/issues"
   },
-  "homepage": "https://github.com/simihartstein/pino-seq#readme",
+  "homepage": "https://github.com/datalust/pino-seq#readme",
   "devDependencies": {
     "pino": "^5.12.2",
     "mocha": "^5.2.0",
