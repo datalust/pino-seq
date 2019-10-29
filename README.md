@@ -1,4 +1,4 @@
-# pino-seq [![Build status](https://ci.appveyor.com/api/projects/status/mecbtwbuq7vvkrg3?svg=true)](https://ci.appveyor.com/project/datalust/pino-seq) [![NPM](https://img.shields.io/npm/v/pino-seq.svg)](https://www.npmjs.com/package/pino-seq)-->
+# pino-seq [![Build status](https://ci.appveyor.com/api/projects/status/mecbtwbuq7vvkrg3?svg=true)](https://ci.appveyor.com/project/datalust/pino-seq) [![NPM](https://img.shields.io/npm/v/pino-seq.svg)](https://www.npmjs.com/package/pino-seq)
 
 A stream to send [Pino](https://github.com/pinojs/pino) events to [Seq](https://datalust.co/seq). Tested with Node.js versions 4.2.2 and up.
 
