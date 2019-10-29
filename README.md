@@ -1,13 +1,12 @@
-<!--# bunyan-seq [![Build status](https://ci.appveyor.com/api/projects/status/mrcbbrd33prih7bb?svg=true)](https://ci.appveyor.com/project/datalust/bunyan-seq) [![NPM](https://img.shields.io/npm/v/bunyan-seq.svg)](https://www.npmjs.com/package/bunyan-seq)-->
+# pino-seq [![Build status](https://ci.appveyor.com/api/projects/status/mecbtwbuq7vvkrg3?svg=true)](https://ci.appveyor.com/project/datalust/pino-seq) [![NPM](https://img.shields.io/npm/v/pino-seq.svg)](https://www.npmjs.com/package/pino-seq)-->
 
+A stream to send [Pino](https://github.com/pinojs/pino) events to [Seq](https://datalust.co/seq). Tested with Node.js versions 4.2.2 and up.
 
-A stream to send [Pino](https://github.com/pinojs/pino) events to [Seq](https://getseq.net). Tested with Node.js versions 4.2.2 and up.
-
-### Transport Usage
+### Transport usage
 
 `node foo | pino-seq --apiKey <key> --serverUrl http://localhost:5341`
 
-### Stream Usage
+### Stream usage
 
 Use the `createStream()` method to create a Pino stream configuration, passing `serverUrl`, `apiKey` and batching parameters.
 
@@ -24,4 +23,8 @@ let frLogger = logger.child({lang: "fr"});
 frLogger.warn("au reviour");
 ```
 
-See the [Pino API](https://github.com/pinojs/pino/blob/master/docs/api.md) for how to use the logger
+See the [Pino API](https://github.com/pinojs/pino/blob/master/docs/api.md) for how to use the logger.
+
+### Acknowledgements
+
+Originally by Simi Hartstein and published as `simihartstein/pino-seq`; maintainership transferred to Datalust at version 0.5.
