@@ -6,12 +6,19 @@ environment:
 install:
 - ps: >-
     $ErrorActionPreference = "SilentlyContinue"
+    
     Install-Product node $env:NODE_VERSION
+    
     & npm install -g npm 2>&1
+    
     & npm install 2>&1
+    
     trap { "Error: $_" }
+    
     $LastExitCode = 0
+    
     & node --version
+    
     & npm --version
 build: none
 test_script:
@@ -19,8 +26,13 @@ test_script:
 deploy_script:
 - ps: >-
     if ($env:APPVEYOR_REPO_BRANCH -ne 'master') { exit } 
+        
     $ErrorActionPreference = "SilentlyContinue"
+    
     echo "//registry.npmjs.org/:_authToken=$env:NPM_TOKEN`n" | out-file "./.npmrc" -Encoding ASCII
+    
     npm publish 2>&1
-    trap { "Error: $_" }    
+    
+    trap { "Error: $_" }
+    
     $LastExitCode = 0
