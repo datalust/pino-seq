@@ -2,11 +2,37 @@
 
 A stream to send [Pino](https://github.com/pinojs/pino) events to [Seq](https://datalust.co/seq). Tested with Node.js versions 4.2.2 and up.
 
-### Transport usage
+### Out-of-process (transport) usage <sup>recommended</sup>
 
-`node foo | pino-seq --apiKey <key> --serverUrl http://localhost:5341`
+First, install and use `pino` in your Node.js app, following the instructions in the [Pino documentation](https://getpino.io).
 
-### Stream usage
+This will look something like:
+
+```js
+const logger = require('pino')();
+logger.info('Hello, World!');
+```
+
+Pino will, by default, write newline-delimited JSON events to `STDOUT`. These events are piped into the `pino-seq` transport.
+
+First, install `pino-seq` as a global tool:
+
+```shell
+npm install -g pino-seq
+```
+
+Then, pipe the output of your Pino-enabled app to it:
+
+```shell
+node your-app.js | pino-seq --serverUrl http://localhost:5341 --apiKey 1234567890
+```
+
+`pino-seq` accepts the following parameters:
+
+ * `serverUrl` - this is the base URL of your Seq server; if omitted, the default value of `http://localhost:5341` will be used
+ * `apiKey` - your Seq API key, if one is required; the default does not send an API key
+
+### In-process (stream) usage
 
 Use the `createStream()` method to create a Pino stream configuration, passing `serverUrl`, `apiKey` and batching parameters.
 
@@ -22,8 +48,6 @@ logger.info("Hello Seq, from Pino");
 let frLogger = logger.child({lang: "fr"});
 frLogger.warn("au reviour");
 ```
-
-See the [Pino API](https://github.com/pinojs/pino/blob/master/docs/api.md) for how to use the logger.
 
 ### Acknowledgements
 
