@@ -1,7 +1,8 @@
 "use strict";
 
-let stream = require("stream");
+let stream = require('stream');
 let seq = require('seq-logging');
+
 let LEVEL_NAMES = {
   10: 'Verbose',
   20: 'Debug',
@@ -32,7 +33,7 @@ class PinoSeqStream extends stream.Writable {
       try {
         let eventCopy = JSON.parse(message);
 
-        let { time, level, msg, exception, v, err, error, stack, ...props } = eventCopy
+        let { time, level, msg, exception, v, err, error, stack, ...props } = eventCopy;
 
         // Get the properties from the error
         let { message: errMessage, stack: errStack, ...errorProps } = err || error || {};
@@ -43,7 +44,7 @@ class PinoSeqStream extends stream.Writable {
           messageTemplate: msg ? msg : errMessage,
           properties: { ...errorProps, ...props },
           exception: stack ? stack : errStack
-        }
+        };
 
         // Handle sending to sql separatly
         try {
@@ -87,7 +88,7 @@ class PinoSeqStream extends stream.Writable {
         this._logger.emit({
           timestamp: this._bufferTime,
           level: this._logOtherAs,
-          message: this._buffer.join("\n"),
+          message: this._buffer.join('\n')
         });
         this._bufferTime = false;
         this._buffer = [];
@@ -107,7 +108,7 @@ class PinoSeqStream extends stream.Writable {
   // A browser only function that queues events for sending using the
   // navigator.sendBeacon() API.  This may work in an unload or pagehide event
   // handler when a normal flush() would not.
-  // Events over 63K in length are discarded (with a warning sent in its place) 
+  // Events over 63K in length are discarded (with a warning sent in its place)
   // and the total size batch will be no more than 63K in length.
   flushToBeacon() {
     return this._logger.flushToBeacon();
