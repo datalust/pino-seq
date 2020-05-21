@@ -29,8 +29,9 @@ node your-app.js | pino-seq --serverUrl http://localhost:5341 --apiKey 123456789
 
 `pino-seq` accepts the following parameters:
 
- * `serverUrl` - this is the base URL of your Seq server; if omitted, the default value of `http://localhost:5341` will be used
- * `apiKey` - your Seq API key, if one is required; the default does not send an API key
+- `serverUrl` - this is the base URL of your Seq server; if omitted, the default value of `http://localhost:5341` will be used
+- `apiKey` - your Seq API key, if one is required; the default does not send an API key
+- `logOtherAs` - log other output (not formatted through pino) to seq at this loglevel. Useful to capture messages if the node process crashes or smilar.
 
 ### In-process (stream) usage
 
@@ -40,13 +41,13 @@ Use the `createStream()` method to create a Pino stream configuration, passing `
 let pino = require('pino');
 let pinoToSeq = require('pino-seq');
 
-let stream = pinoToSeq.createStream({serverUrl: "http://localhost:5341"});
-let logger = pino({name: "pino-seq example"}, stream);
+let stream = pinoToSeq.createStream({ serverUrl: 'http://localhost:5341' });
+let logger = pino({ name: 'pino-seq example' }, stream);
 
-logger.info("Hello Seq, from Pino");
+logger.info('Hello Seq, from Pino');
 
-let frLogger = logger.child({lang: "fr"});
-frLogger.warn("au reviour");
+let frLogger = logger.child({ lang: 'fr' });
+frLogger.warn('au reviour');
 ```
 
 ### Acknowledgements
