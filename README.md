@@ -9,8 +9,8 @@ First, install and use `pino` in your Node.js app, following the instructions in
 This will look something like:
 
 ```js
-const logger = require("pino")();
-logger.info("Hello, World!");
+const logger = require('pino')();
+logger.info('Hello, World!');
 ```
 
 Pino will, by default, write newline-delimited JSON events to `STDOUT`. These events are piped into the `pino-seq` transport.
@@ -31,23 +31,23 @@ node your-app.js | pino-seq --serverUrl http://localhost:5341 --apiKey 123456789
 
 - `serverUrl` - this is the base URL of your Seq server; if omitted, the default value of `http://localhost:5341` will be used
 - `apiKey` - your Seq API key, if one is required; the default does not send an API key
-- `logOtherAs` - log other output (not formatted through pino) to seq at this loglevel. Useful to capture messages if the node processe carshes or smilar.
+- `logOtherAs` - log other output (not formatted through pino) to seq at this loglevel. Useful to capture messages if the node process crashes or smilar.
 
 ### In-process (stream) usage
 
 Use the `createStream()` method to create a Pino stream configuration, passing `serverUrl`, `apiKey` and batching parameters.
 
 ```js
-let pino = require("pino");
-let pinoToSeq = require("pino-seq");
+let pino = require('pino');
+let pinoToSeq = require('pino-seq');
 
-let stream = pinoToSeq.createStream({ serverUrl: "http://localhost:5341" });
-let logger = pino({ name: "pino-seq example" }, stream);
+let stream = pinoToSeq.createStream({ serverUrl: 'http://localhost:5341' });
+let logger = pino({ name: 'pino-seq example' }, stream);
 
-logger.info("Hello Seq, from Pino");
+logger.info('Hello Seq, from Pino');
 
-let frLogger = logger.child({ lang: "fr" });
-frLogger.warn("au reviour");
+let frLogger = logger.child({ lang: 'fr' });
+frLogger.warn('au reviour');
 ```
 
 ### Acknowledgements
