@@ -24,15 +24,9 @@ build: none
 test_script:
 - cmd: npm test
 deploy_script:
-- ps: >-
-    if ($env:APPVEYOR_REPO_BRANCH -ne 'master') { exit } 
+- cmd: >-
+    echo //registry.npmjs.org/:_authToken=%NPM_TOKEN%> .npmrc
+    node --version
         
-    $ErrorActionPreference = "SilentlyContinue"
+    if %APPVEYOR_REPO_BRANCH% equ master npm publish
     
-    echo "//registry.npmjs.org/:_authToken=$env:NPM_TOKEN`n" | out-file "./.npmrc" -Encoding ASCII
-    
-    npm publish 2>&1
-    
-    trap { "Error: $_" }
-    
-    $LastExitCode = 0
