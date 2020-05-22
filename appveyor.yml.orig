@@ -24,8 +24,13 @@ build: none
 test_script:
 - cmd: npm test
 deploy_script:
+<<<<<<< HEAD
 - cmd: >-
     echo //registry.npmjs.org/:_authToken=%NPM_TOKEN%> .npmrc
     node --version
         
     if %APPVEYOR_REPO_BRANCH% equ master npm publish
+    
+=======
+- ps: ./Publish.ps1
+>>>>>>> 7d6e0f101085da25f16b8b10a34fa0ba6f47f9c3
