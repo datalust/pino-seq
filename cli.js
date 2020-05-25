@@ -6,6 +6,7 @@ const split2 = require('split2');
 const pkg = require('./package.json');
 const pinoSeq = require('./index');
 
+
 function main() {
   program
     .version(pkg.version)
@@ -25,7 +26,22 @@ function main() {
     .action(({ serverUrl, apiKey, logOtherAs }) => {
       try {
         const writeStream = pinoSeq.createStream({ serverUrl, apiKey, logOtherAs });
+
         process.stdin.pipe(split2()).pipe(writeStream);
+
+        const handler = (err, name) => {
+          writeStream.end(() => {
+            console.log("EXIT SIGNAL: " + name);
+            process.exit(0);
+          });
+        }
+
+        process.on("SIGINT", () => handler(null, "SIGINT"));
+        process.on("SIGQUIT", () => handler(null, "SIGQUIT"));
+        process.on("SIGTERM", () => handler(null, "SIGTERM"));
+        process.on("SIGLOST", () => handler(null, "SIGLOST"))
+        process.on("SIGABRT", () => handler(null, "SIGABRT"))
+
       } catch (error) {
         console.error(error);
       }
