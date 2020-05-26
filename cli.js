@@ -30,7 +30,6 @@ function main() {
 
         const handler = (err, name) => {
           writeStream.end(() => {
-            console.log('EXIT SIGNAL: ' + name);
             process.exit(0);
           });
         };
