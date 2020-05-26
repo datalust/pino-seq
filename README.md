@@ -33,6 +33,14 @@ node your-app.js | pino-seq --serverUrl http://localhost:5341 --apiKey 123456789
 - `apiKey` - your Seq API key, if one is required; the default does not send an API key
 - `logOtherAs` - log other output (not formatted through pino) to seq at this loglevel. Useful to capture messages if the node process crashes or smilar.
 
+#### Capturing other output
+
+To enable capture of output not formatted through pino use the `logOtherAs` parameter. It's possible to use different settings for STDOUT/STDERR like this, when using bash:
+
+```shell
+node your-app.js 2> >(pino-seq --logOtherAs Error --serverUrl http://localhost:5341 --apiKey 1234567890) > >(pino-seq --logOtherAs Information --serverUrl http://localhost:5341 --apiKey 1234567890)
+```
+
 ### In-process (stream) usage
 
 Use the `createStream()` method to create a Pino stream configuration, passing `serverUrl`, `apiKey` and batching parameters.
