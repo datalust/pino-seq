@@ -2,11 +2,46 @@
 
 A stream to send [Pino](https://github.com/pinojs/pino) events to [Seq](https://datalust.co/seq). Tested with Node.js versions 4.2.2 and up.
 
-### Transport usage
+### Out-of-process (transport) usage <sup>recommended</sup>
 
-`node foo | pino-seq --apiKey <key> --serverUrl http://localhost:5341`
+First, install and use `pino` in your Node.js app, following the instructions in the [Pino documentation](https://getpino.io).
 
-### Stream usage
+This will look something like:
+
+```js
+const logger = require('pino')();
+logger.info('Hello, World!');
+```
+
+Pino will, by default, write newline-delimited JSON events to `STDOUT`. These events are piped into the `pino-seq` transport.
+
+First, install `pino-seq` as a global tool:
+
+```shell
+npm install -g pino-seq
+```
+
+Then, pipe the output of your Pino-enabled app to it:
+
+```shell
+node your-app.js | pino-seq --serverUrl http://localhost:5341 --apiKey 1234567890
+```
+
+`pino-seq` accepts the following parameters:
+
+- `serverUrl` - this is the base URL of your Seq server; if omitted, the default value of `http://localhost:5341` will be used
+- `apiKey` - your Seq API key, if one is required; the default does not send an API key
+- `logOtherAs` - log other output (not formatted through pino) to seq at this loglevel. Useful to capture messages if the node process crashes or smilar.
+
+#### Capturing other output
+
+To enable capture of output not formatted through pino use the `logOtherAs` parameter. It's possible to use different settings for STDOUT/STDERR like this, when using bash:
+
+```shell
+node your-app.js 2> >(pino-seq --logOtherAs Error --serverUrl http://localhost:5341 --apiKey 1234567890) > >(pino-seq --logOtherAs Information --serverUrl http://localhost:5341 --apiKey 1234567890)
+```
+
+### In-process (stream) usage
 
 Use the `createStream()` method to create a Pino stream configuration, passing `serverUrl`, `apiKey` and batching parameters.
 
@@ -14,16 +49,14 @@ Use the `createStream()` method to create a Pino stream configuration, passing `
 let pino = require('pino');
 let pinoToSeq = require('pino-seq');
 
-let stream = pinoToSeq.createStream({serverUrl: "http://localhost:5341"});
-let logger = pino({name: "pino-seq example"}, stream);
+let stream = pinoToSeq.createStream({ serverUrl: 'http://localhost:5341' });
+let logger = pino({ name: 'pino-seq example' }, stream);
 
-logger.info("Hello Seq, from Pino");
+logger.info('Hello Seq, from Pino');
 
-let frLogger = logger.child({lang: "fr"});
-frLogger.warn("au reviour");
+let frLogger = logger.child({ lang: 'fr' });
+frLogger.warn('au reviour');
 ```
-
-See the [Pino API](https://github.com/pinojs/pino/blob/master/docs/api.md) for how to use the logger.
 
 ### Acknowledgements
 
