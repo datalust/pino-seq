@@ -26,7 +26,7 @@ function main() {
       try {
         const writeStream = pinoSeq.createStream({ serverUrl, apiKey, logOtherAs });
 
-        process.stdin.pipe(split2()).pipe(writeStream);
+        process.stdin.pipe(split2()).pipe(writeStream).on("error", console.error);
 
         const handler = (err, name) => {
           writeStream.end(() => {
