@@ -33,7 +33,7 @@ class PinoSeqStream extends stream.Writable {
       try {
         let eventCopy = JSON.parse(message);
 
-        let { time, level, msg, exception, v, err, error, stack, ...props } = eventCopy;
+        let { time, level, msg, err, error, stack, ...props } = eventCopy;
 
         // Get the properties from the error
         let { message: errMessage, stack: errStack, ...errorProps } = err || error || {};
