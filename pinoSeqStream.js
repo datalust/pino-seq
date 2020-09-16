@@ -16,12 +16,13 @@ class PinoSeqStream extends stream.Writable {
   constructor(config) {
     super();
 
-    let { logOtherAs, ...loggerConfig } = config == null ? {} : { ...config };
+    let { additionalProperties, logOtherAs, ...loggerConfig } = config == null ? {} : { ...config };
     let onError = loggerConfig.onError || function () { };
     loggerConfig.onError = (e) => {
       this.destroy(e);
       onError(e);
     };
+    this._additionalProperties = additionalProperties;
     this._logOtherAs = logOtherAs;
     this._bufferTime = false;
     this._buffer = [];
@@ -42,7 +43,7 @@ class PinoSeqStream extends stream.Writable {
           timestamp: new Date(time),
           level: LEVEL_NAMES[level],
           messageTemplate: msg ? msg : errMessage,
-          properties: { ...errorProps, ...props },
+          properties: { ...this._additionalProperties, ...errorProps, ...props },
           exception: stack ? stack : errStack
         };
 
@@ -88,7 +89,8 @@ class PinoSeqStream extends stream.Writable {
         this._logger.emit({
           timestamp: this._bufferTime,
           level: this._logOtherAs,
-          messageTemplate: this._buffer.join('\n')
+          messageTemplate: this._buffer.join('\n'),
+          properties: { ...this._additionalProperties },
         });
         this._bufferTime = false;
         this._buffer = [];
