@@ -1,11 +1,11 @@
 {
   "name": "pino-seq",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "A stream that sends Pino log events to Seq",
   "main": "index.js",
   "scripts": {
     "test": "node ./node_modules/mocha/bin/mocha",
-    "test:cli": "node ./test/cli_tests.js | node ./cli.js",
+    "test:cli": "node ./test/cli_tests.js | node ./cli.js --property application='pino-seq'",
     "start": "node ./example/example.js",
     "start:ts": "ts-node ./example/example.ts"
   },
@@ -27,10 +27,10 @@
   },
   "homepage": "https://github.com/datalust/pino-seq#readme",
   "devDependencies": {
+    "mocha": "^7.1.1",
     "pino": "^5.12.2",
-    "mocha": "^5.2.0",
-    "typescript": "^3.4.4",
-    "ts-node": "^8.1.0"
+    "ts-node": "^8.1.0",
+    "typescript": "^3.4.4"
   },
   "dependencies": {
     "@types/pino": "^5.8.6",
