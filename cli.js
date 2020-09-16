@@ -22,9 +22,22 @@ function main() {
         return undefined;
       }
     )
-    .action(({ serverUrl, apiKey, logOtherAs }) => {
+    .option('-p, --property <property>', 'Properties to add to all logs', (value, previous) => {
+      const valueSplit = value.split('=')
+      if(valueSplit.length !== 2)
+      {
+        console.error(`Warning, skipping option "property": Invalid value specified: "${value}`)
+        return previous;
+      }
+
+      const current = {
+        [valueSplit[0]]: valueSplit[1]
+      }
+      return Object.assign(previous, current);
+    }, {})
+    .action(({ serverUrl, apiKey, logOtherAs, property }) => {
       try {
-        const writeStream = pinoSeq.createStream({ serverUrl, apiKey, logOtherAs });
+        const writeStream = pinoSeq.createStream({ serverUrl, apiKey, logOtherAs, additionalProperties: property });
 
         process.stdin.pipe(split2()).pipe(writeStream).on("error", console.error);
 
