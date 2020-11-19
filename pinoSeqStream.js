@@ -17,7 +17,7 @@ class PinoSeqStream extends stream.Writable {
     super();
 
     let { additionalProperties, logOtherAs, ...loggerConfig } = config == null ? {} : { ...config };
-    loggerConfig.onError = loggerConfig.onError || function () {this.destroy(e);};
+    loggerConfig.onError = loggerConfig.onError || function (e) {this.destroy(e);};
     this._additionalProperties = additionalProperties;
     this._logOtherAs = logOtherAs;
     this._bufferTime = false;
