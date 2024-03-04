@@ -12,6 +12,10 @@ let LEVEL_NAMES = {
   60: 'Fatal'
 };
 
+function msleep(n) {
+  Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, n);
+}
+
 class PinoSeqStream extends stream.Writable {
   constructor(config) {
     super();
@@ -93,6 +97,30 @@ class PinoSeqStream extends stream.Writable {
       } catch (err) {
         console.error(err);
       }
+    }
+  }
+
+  // When flushing logs pino doesn't actually call _final and wait for the logs to flush when using streams
+  // Instead it calls a poorly documented flushSync method that is not part of the stream.Writable interface
+  // As the name suggests the function is not async and will block the event loop until the logs are flushed
+  // Normally this wouldn't be an issue, but when running inside a Cloud function the function will often exit before the logs are flushed,
+  // so this implementation is in line with what pino recommends https://getpino.io/#/docs/asynchronous?id=aws-lambda
+  flushSync() {
+    this.flushBuffer();
+
+    let running = true;
+    this._logger
+      .flush()
+      .then(() => {
+        running = false;
+      })
+      .catch((err) => {
+        console.error(err);
+        running = false;
+      });
+
+    while (running) {
+      msleep(100);
     }
   }
 
