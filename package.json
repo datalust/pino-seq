@@ -27,16 +27,16 @@
   },
   "homepage": "https://github.com/datalust/pino-seq#readme",
   "devDependencies": {
+    "@types/pino": "^5.8.6",
     "mocha": "^7.1.1",
-    "pino": "^6.7.0",
     "ts-node": "^8.1.0",
     "typescript": "^3.4.4"
   },
   "dependencies": {
-    "@types/pino": "^5.8.6",
     "commander": "^2.20.0",
     "seq-logging": "^2.2.0",
-    "split2": "^3.1.1"
+    "split2": "^3.1.1",
+    "pino": "^6.7.0"
   },
   "engines": {
     "node": ">=14.0.0"
