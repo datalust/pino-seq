@@ -38,6 +38,8 @@ class PinoSeqStream extends stream.Writable {
         let forSeq = {
           timestamp: new Date(time),
           level: LEVEL_NAMES[level],
+          traceId: props.trace_id,
+          spanId: props.span_id,
           messageTemplate: msg ? msg : errMessage,
           properties: { ...this._additionalProperties, ...errorProps, ...props },
           exception: stack ? stack : errStack
