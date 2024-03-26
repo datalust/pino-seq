@@ -13,3 +13,5 @@ logger.info("Hello Seq, from Pino");
 
 const frLogger = logger.child({lang: "fr"});
 frLogger.warn("au reviour");
+
+stream.flush().then((_) => console.log('flushed'));
