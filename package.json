@@ -1,6 +1,6 @@
 {
   "name": "pino-seq",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "A stream that sends Pino log events to Seq",
   "main": "index.js",
   "scripts": {
