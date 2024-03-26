@@ -11,7 +11,9 @@ declare namespace PinoSeq {
     onError?: (e: Error) => void;
   }
 
-  function createStream(config: PinoSeq.SeqConfig): Writable;
+  function createStream(config: PinoSeq.SeqConfig): Writable & { _logger: seq.Logger; flush: () => void };
+  // Or perhaps just:
+  // function createStream(config: PinoSeq.SeqConfig): Writable & { flush: () => void };
 }
 
 export = PinoSeq;
