@@ -98,6 +98,11 @@ class PinoSeqStream extends stream.Writable {
     }
   }
 
+  flush() {
+    this.flushBuffer();
+    return this._logger.flush();
+  }
+
   // Force the underlying logger to flush at the time of the call
   // and wait for pending writes to complete
   _final(callback) {
