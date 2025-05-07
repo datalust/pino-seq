@@ -2,13 +2,10 @@
 
 import program from 'commander';
 import split2 from 'split2';
-
-import pkg from './package.json';
 import pinoSeq from './index.js';
 
 function main() {
   program
-    .version(pkg.version)
     .option('-s, --serverUrl <serverUrl>', 'Seq server instance')
     .option('-k, --apiKey <apiKey>', 'Seq API key')
     .option(
