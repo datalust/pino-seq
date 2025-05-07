@@ -3,6 +3,7 @@
   "version": "2.0.0",
   "description": "A stream that sends Pino log events to Seq",
   "main": "index.js",
+  "types": "index.d.ts",
   "type": "module",
   "scripts": {
     "test": "mocha",
