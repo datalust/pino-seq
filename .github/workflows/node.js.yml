@@ -29,5 +29,3 @@ jobs:
     - run: npm run build --if-present
     - run: npm test
     - run: npm run test:cli
-    - run: npm run start
-    - run: npm run start:ts
