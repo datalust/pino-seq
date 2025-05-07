@@ -7,7 +7,6 @@
   "type": "module",
   "scripts": {
     "test": "mocha",
-    "test:cli": "node ./test/cli_tests.js | node ./cli.js --property application='pino-seq'",
     "start": "node ./example/example.js",
     "start:ts": "tsx ./example/example.ts"
   },
