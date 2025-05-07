@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import program from 'commander';
+import { program } from 'commander';
 import split2 from 'split2';
 import pinoSeq from './index.js';
 
