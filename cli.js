@@ -1,14 +1,11 @@
 #!/usr/bin/env node
 
-const program = require('commander');
-const split2 = require('split2');
-
-const pkg = require('./package.json');
-const pinoSeq = require('./index');
+import { program } from 'commander';
+import split2 from 'split2';
+import pinoSeq from './index.js';
 
 function main() {
   program
-    .version(pkg.version)
     .option('-s, --serverUrl <serverUrl>', 'Seq server instance')
     .option('-k, --apiKey <apiKey>', 'Seq API key')
     .option(

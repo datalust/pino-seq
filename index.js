@@ -1,8 +1,8 @@
 "use strict";
 
-let PinoSeqStream = require('./pinoSeqStream');
+import { PinoSeqStream } from './pinoSeqStream.js';
 
-module.exports = {
+export default {
   createStream: config => {
     config = config || {};
     return new PinoSeqStream(config);

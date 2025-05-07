@@ -1,7 +1,7 @@
 "use strict";
 
-let pino = require('pino');
-let pinoToSeq = require('../index');
+import pino from 'pino';
+import pinoToSeq from '../index.js';
 
 let stream = pinoToSeq.createStream({serverUrl: "http://localhost:5341"});
 let logger = pino({name: "pino-seq example"}, stream);

@@ -1,6 +1,6 @@
 "use strict";
 
-let PinoSeqStream = require('../pinoSeqStream');
+import { PinoSeqStream } from '../pinoSeqStream.js';
 
 describe('PinoSeqStream', () => {
    describe('constructor', () => {
