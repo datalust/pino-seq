@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
-const program = require('commander');
-const split2 = require('split2');
+import program from 'commander';
+import split2 from 'split2';
 
-const pkg = require('./package.json');
-const pinoSeq = require('./index');
+import pkg from './package.json';
+import pinoSeq from './index.js';
 
 function main() {
   program

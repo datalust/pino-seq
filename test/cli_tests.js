@@ -1,6 +1,6 @@
 "use strict";
 
-const pino = require('pino')({
+const pino = (await import('pino')).default({
   level: 'trace'
 });
 
