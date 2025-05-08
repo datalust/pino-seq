@@ -1,6 +1,6 @@
 # pino-seq ![Build](https://github.com/datalust/pino-seq/workflows/Test/badge.svg) ![Publish](https://github.com/datalust/pino-seq/workflows/Publish/badge.svg) [![NPM](https://img.shields.io/npm/v/pino-seq.svg)](https://www.npmjs.com/package/pino-seq)
 
-A stream to send [Pino](https://github.com/pinojs/pino) events to [Seq](https://datalust.co/seq). Tested with Node.js versions 4.2.2 and up.
+A stream to send [Pino](https://github.com/pinojs/pino) events to [Seq](https://datalust.co/seq). Tested with Node.js versions 18.x and up.
 
 ### Out-of-process (transport) usage <sup>recommended</sup>
 
@@ -9,7 +9,7 @@ First, install and use `pino` in your Node.js app, following the instructions in
 This will look something like:
 
 ```js
-const logger = require('pino')();
+const logger = (await import('pino'))();
 logger.info('Hello, World!');
 ```
 
@@ -47,8 +47,8 @@ node your-app.js 2> >(pino-seq --logOtherAs Error --serverUrl http://localhost:5
 Use the `createStream()` method to create a Pino stream configuration, passing `serverUrl`, `apiKey` and batching parameters.
 
 ```js
-let pino = require('pino');
-let pinoToSeq = require('pino-seq');
+import pino from 'pino';
+import pinoToSeq from 'pino-seq';
 
 let stream = pinoToSeq.createStream({ serverUrl: 'http://localhost:5341' });
 let logger = pino({ name: 'pino-seq example' }, stream);

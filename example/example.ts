@@ -1,6 +1,5 @@
-import * as Pino from "pino"
-import * as PinoSeq from ".."
-
+import Pino from "pino"
+import PinoSeq from ".."
 
 const stream = PinoSeq.createStream({serverUrl: "http://localhost:5341"});
 

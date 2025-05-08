@@ -1,7 +1,7 @@
 "use strict";
 
-let stream = require('stream');
-let seq = require('seq-logging');
+import stream from 'stream';
+import { Logger as SeqLogger } from 'seq-logging';
 
 let LEVEL_NAMES = {
   10: 'Verbose',
@@ -22,7 +22,7 @@ class PinoSeqStream extends stream.Writable {
     this._logOtherAs = logOtherAs;
     this._bufferTime = false;
     this._buffer = [];
-    this._logger = new seq.Logger(loggerConfig);
+    this._logger = new SeqLogger(loggerConfig);
   }
 
   _write(message, enc, cb) {
@@ -114,4 +114,4 @@ class PinoSeqStream extends stream.Writable {
   }
 }
 
-module.exports = PinoSeqStream;
+export { PinoSeqStream };
