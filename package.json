@@ -1,6 +1,6 @@
 {
   "name": "pino-seq",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "A stream that sends Pino log events to Seq",
   "main": "index.js",
   "types": "index.d.ts",
@@ -35,8 +35,10 @@
   "dependencies": {
     "commander": "^13.1.0",
     "seq-logging": "^3.0.0",
-    "split2": "^4.2.0",
-    "pino": "^9.6.0"
+    "split2": "^4.2.0"
+  },
+  "peerDependencies": {
+    "pino": "9.x"
   },
   "engines": {
     "node": ">=18.0.0"
