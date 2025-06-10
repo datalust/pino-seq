@@ -1,4 +1,4 @@
-import { Writable } from 'stream';
+import { Writable } from 'node:stream';
 
 declare namespace PinoSeq {
   interface SeqConfig {
@@ -16,4 +16,4 @@ declare namespace PinoSeq {
   };
 }
 
-export = PinoSeq;
+export { PinoSeq as default };
