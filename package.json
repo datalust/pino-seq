@@ -6,7 +6,8 @@
   "types": "index.d.ts",
   "type": "module",
   "scripts": {
-    "test": "mocha",
+    "check": "tsc --noEmit",
+    "test": "npm run check && mocha",
     "start": "node ./example/example.js",
     "start:ts": "tsx ./example/example.ts"
   },
@@ -28,6 +29,8 @@
   },
   "homepage": "https://github.com/datalust/pino-seq#readme",
   "devDependencies": {
+    "@tsconfig/node18": "^18.2.4",
+    "@types/node": "^18.19.111",
     "mocha": "^11.2.2",
     "tsx": "^4.19.4",
     "typescript": "^5.8.3"
