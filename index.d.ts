@@ -12,7 +12,7 @@ declare namespace PinoSeq {
   }
 
   function createStream(config: PinoSeq.SeqConfig): Writable & {
-    flush: () => Promise<Boolean>;
+    flush: () => Promise<boolean>;
   };
 }
 
