@@ -1,0 +1,14 @@
+services:
+  seq:
+    image: datalust/seq:latest
+    ports:
+      - "5341:80"
+      - "5342:5342"
+    environment:
+      - ACCEPT_EULA=Y
+    volumes:
+      - seq-data:/data
+    restart: unless-stopped
+
+volumes:
+  seq-data:
