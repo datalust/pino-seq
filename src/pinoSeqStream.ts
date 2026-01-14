@@ -61,7 +61,7 @@ export class PinoSeqStream extends Writable {
       try {
         const eventCopy: PinoLogEvent = JSON.parse(message.toString());
 
-        const { time, level, msg, err, error, stack, trace_id, span_id, ...props } = eventCopy;
+        const { time, level, msg, err, error, stack, ...props } = eventCopy;
 
         // Get the properties from the error
         const errorObj = err || error;
@@ -72,8 +72,8 @@ export class PinoSeqStream extends Writable {
         const forSeq = {
           timestamp: new Date(time),
           level: LEVEL_NAMES[level],
-          traceId: trace_id,
-          spanId: span_id,
+          traceId: props.trace_id,
+          spanId: props.span_id,
           messageTemplate: msg || errMessage,
           properties: { 
             ...this._additionalProperties, 
