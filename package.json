@@ -3,7 +3,6 @@
   "version": "3.0.0",
   "description": "A stream that sends Pino log events to Seq",
   "main": "./dist/index.js",
-  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "type": "module",
   "exports": {
