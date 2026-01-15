@@ -95,7 +95,7 @@ docker compose down
 npm run build
 ```
 
-The build produces ES Module output in the `dist/` directory with automatic type definitions.
+The build uses the TypeScript compiler (`tsc`) to produce ES Module output in the `dist/` directory with automatic type definitions.
 
 **Note:** This package is ESM-only (like its dependency `seq-logging`). If you need CommonJS support, please use version 2.x or earlier.
 
