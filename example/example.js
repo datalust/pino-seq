@@ -1,7 +1,7 @@
 "use strict";
 
 import pino from 'pino';
-import pinoToSeq from '../dist/index.js';
+import pinoToSeq from 'pino-seq';
 
 let stream = pinoToSeq.createStream({serverUrl: "http://localhost:5341"});
 let logger = pino({name: "pino-seq example"}, stream);

@@ -1,5 +1,5 @@
 import Pino from "pino"
-import PinoSeq from "../dist/index.js"
+import PinoSeq from "pino-seq"
 
 const stream = PinoSeq.createStream({serverUrl: "http://localhost:5341"});
 
