@@ -67,13 +67,39 @@ The `createStream()` function accepts a configuration object with the following 
 
 ### Running Tests
 
+The test suite includes integration tests that verify round-trip logging to Seq. Tests query Seq after logging to verify events are correctly ingested.
+
+**With local Seq instance** (recommended - tests actual integration):
+
 ```bash
+# Start Seq container
+docker compose up -d
+
+# Run tests (includes TypeScript compilation)
 npm test
+
+# Stop Seq
+docker compose down
 ```
 
-### Testing with Local Seq Instance
+**Without Seq** (type checking only):
 
-A Docker Compose configuration is provided for local testing:
+```bash
+npm run build  # Just compiles TypeScript
+```
+
+### Why Docker Compose?
+
+The included `docker-compose.yml` enables **real integration testing**, not just type checking:
+
+- Tests verify actual log ingestion into Seq
+- Each test queries Seq to confirm the logged event appears correctly
+- Validates trace_id, span_id, error handling, and child loggers
+- Provides confidence that the integration actually works end-to-end
+
+This is critical for a logging library - we need to verify logs actually reach their destination.
+
+### Running Examples
 
 ```bash
 # Start Seq
