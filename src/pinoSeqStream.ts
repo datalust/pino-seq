@@ -41,7 +41,7 @@ export class PinoSeqStream extends Writable {
     const { additionalProperties, logOtherAs, ...loggerConfig } = config || {};
     
     const onError = (loggerConfig as SeqLoggerConfig).onError || ((e: Error) => {
-      console.error('[PinoSeqStream] Log batch failed\n', e);
+      console.error('[PinoSeqStream]', e);
     });
 
     const configWithDefaults: SeqLoggerConfig = {

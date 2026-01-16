@@ -1,5 +1,5 @@
 import Pino from "pino"
-import PinoSeq from "pino-seq"
+import PinoSeq from "../dist/index.js"
 
 const stream = PinoSeq.createStream({serverUrl: "http://localhost:5341"});
 
@@ -14,4 +14,3 @@ const frLogger = logger.child({lang: "fr"});
 frLogger.warn("au reviour");
 
 await stream.flush();
-console.log('Flushed logs to Seq');
