@@ -20,6 +20,8 @@
     "build": "tsc",
     "prepublishOnly": "npm run build",
     "test": "npm run build && mocha",
+    "test:setup": "docker compose -f test/docker-compose.yml up -d --wait",
+    "test:teardown": "docker compose -f test/docker-compose.yml down",
     "start": "npm run build && node ./example/example.js",
     "start:ts": "npm run build && tsx ./example/example.ts",
     "dev": "tsc --watch"

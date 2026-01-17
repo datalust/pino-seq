@@ -75,13 +75,13 @@ The test suite includes:
 
 ```bash
 # Start Seq container (with health check)
-docker compose up -d --wait
+npm run test:setup
 
 # Run tests (includes TypeScript compilation and example verification)
 npm test
 
 # Stop Seq
-docker compose down
+npm run test:teardown
 ```
 
 **Without Seq** (type checking only):
@@ -90,24 +90,13 @@ docker compose down
 npm run build  # Just compiles TypeScript
 ```
 
-### Why Docker Compose?
 
-The included `docker-compose.yml` enables **real integration testing**, not just type checking:
-
-- Tests verify actual log ingestion into Seq
-- Each test queries Seq to confirm the logged event appears correctly
-- Validates trace_id, span_id, error handling, and child loggers
-- Examples are tested as users would use them (with proper package imports)
-- Health check ensures Seq is fully ready before tests run
-- Provides confidence that the integration actually works end-to-end
-
-This is critical for a logging library - we need to verify logs actually reach their destination.
 
 ### Running Examples
 
 ```bash
 # Start Seq
-docker compose up -d
+npm run test:setup
 
 # Run examples
 npm start        # JavaScript example
@@ -116,7 +105,7 @@ npm run start:ts # TypeScript example
 # View logs at http://localhost:5341
 
 # Stop Seq
-docker compose down
+npm run test:teardown
 ```
 
 ### Building
