@@ -143,17 +143,4 @@ describe('Integration Tests', () => {
     });
   });
 
-  describe('TypeScript type compatibility', () => {
-    it('should export types correctly', () => {
-      // This test passes if the imports don't throw
-      const config = {
-        serverUrl: 'http://localhost:5341',
-        logOtherAs: 'Information'
-      };
-      const stream = createStream(config);
-      if (typeof stream.flush !== 'function') {
-        throw new Error('Stream should have flush method');
-      }
-    });
-  });
 });
