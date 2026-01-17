@@ -14,17 +14,25 @@ npm install pino-seq
 
 Use the `createStream()` method to create a Pino stream configuration, passing `serverUrl`, `apiKey` and batching parameters.
 
-### JavaScript (ESM)
+This example works in both JavaScript and TypeScript projects:
 
-```js
+```javascript
 import pino from 'pino';
-import pinoToSeq from 'pino-seq';
+import { createStream } from 'pino-seq';
 
-const stream = pinoToSeq.createStream({ serverUrl: 'http://localhost:5341' });
+// Create a stream to Seq
+const stream = createStream({ 
+  serverUrl: 'http://localhost:5341',
+  apiKey: 'your-api-key' // optional
+});
+
+// Create a Pino logger
 const logger = pino({ name: 'pino-seq example' }, stream);
 
+// Log some messages
 logger.info('Hello Seq, from Pino');
 
+// Child loggers work too
 const frLogger = logger.child({ lang: 'fr' });
 frLogger.warn('au reviour');
 
@@ -32,22 +40,16 @@ frLogger.warn('au reviour');
 await stream.flush();
 ```
 
-### TypeScript
+For TypeScript projects with explicit typing:
 
 ```typescript
-import pino from 'pino';
 import { createStream, PinoSeqStreamConfig } from 'pino-seq';
 
 const config: PinoSeqStreamConfig = {
   serverUrl: 'http://localhost:5341',
-  apiKey: 'your-api-key', // optional
-  logOtherAs: 'Information' // optional
+  // ... see Configuration section below for all options
 };
-
 const stream = createStream(config);
-const logger = pino({ name: 'pino-seq example' }, stream);
-
-logger.info('Hello Seq, from Pino');
 ```
 
 ## Configuration
@@ -92,15 +94,14 @@ npm run build  # Just compiles TypeScript
 
 
 
-### Running Examples
+### Running the Example
 
 ```bash
 # Start Seq
 npm run test:setup
 
-# Run examples
-npm start        # JavaScript example
-npm run start:ts # TypeScript example
+# Run the example
+npm start
 
 # View logs at http://localhost:5341
 

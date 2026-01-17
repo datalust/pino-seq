@@ -30,7 +30,7 @@ describe('Example Tests', () => {
     }
   });
 
-  it('should run JavaScript example without errors', async function() {
+  it('should run example without errors', async function() {
     this.timeout(10000);
     
     return new Promise((resolve, reject) => {
@@ -51,47 +51,14 @@ describe('Example Tests', () => {
 
       child.on('close', (code) => {
         if (code !== 0) {
-          reject(new Error(`JavaScript example exited with code ${code}\nstderr: ${stderr}`));
+          reject(new Error(`Example exited with code ${code}\nstderr: ${stderr}`));
         } else {
           resolve();
         }
       });
 
       child.on('error', (err) => {
-        reject(new Error(`Failed to start JavaScript example: ${err.message}`));
-      });
-    });
-  });
-
-  it('should run TypeScript example without errors', async function() {
-    this.timeout(10000);
-    
-    return new Promise((resolve, reject) => {
-      const child = spawn('npx', ['tsx', './example/example.ts'], {
-        env: { ...process.env }
-      });
-
-      let stdout = '';
-      let stderr = '';
-
-      child.stdout.on('data', (data) => {
-        stdout += data.toString();
-      });
-
-      child.stderr.on('data', (data) => {
-        stderr += data.toString();
-      });
-
-      child.on('close', (code) => {
-        if (code !== 0) {
-          reject(new Error(`TypeScript example exited with code ${code}\nstderr: ${stderr}`));
-        } else {
-          resolve();
-        }
-      });
-
-      child.on('error', (err) => {
-        reject(new Error(`Failed to start TypeScript example: ${err.message}`));
+        reject(new Error(`Failed to start example: ${err.message}`));
       });
     });
   });
