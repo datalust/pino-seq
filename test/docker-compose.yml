@@ -23,6 +23,7 @@ services:
       - "5342:5342"
     environment:
       - ACCEPT_EULA=Y
+      - SEQ_FIRSTRUN_NOAUTHENTICATION=True
     restart: unless-stopped
     healthcheck:
       # Uses shell TCP to check /health endpoint (curl/wget not available in image)
