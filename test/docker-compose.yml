@@ -23,8 +23,6 @@ services:
       - "5342:5342"
     environment:
       - ACCEPT_EULA=Y
-    volumes:
-      - seq-data:/data
     restart: unless-stopped
     healthcheck:
       # Uses shell TCP to check /health endpoint (curl/wget not available in image)
@@ -33,6 +31,3 @@ services:
       timeout: 5s
       retries: 5
       start_period: 20s
-
-volumes:
-  seq-data:
