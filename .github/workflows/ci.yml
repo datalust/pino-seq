@@ -34,4 +34,5 @@ jobs:
     - run: npm ci
     - run: npm run build
     - run: npm test
+    - run: npm run test:integration
     - run: cd example && npm link && node example.js
