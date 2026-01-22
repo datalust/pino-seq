@@ -6,6 +6,7 @@ import { promisify } from 'util';
 import { exec as execCallback } from 'child_process';
 
 const exec = promisify(execCallback);
+const useMock = process.env.MOCK_SEQ === 'true';
 
 describe('Example Tests', () => {
   before(async function() {
@@ -13,7 +14,11 @@ describe('Example Tests', () => {
     // Link the package locally so examples can import 'pino-seq'
     try {
       await exec('npm link');
-      console.log('      ℹ Linked pino-seq locally for example tests');
+      if (useMock) {
+        console.log('      ℹ Running example tests with MOCK_SEQ=true (examples will fail without real Seq)');
+      } else {
+        console.log('      ℹ Running example tests with real Seq instance');
+      }
     } catch (err) {
       console.error('      ⚠ Failed to link package:', err.message);
       throw err;
@@ -31,6 +36,11 @@ describe('Example Tests', () => {
   });
 
   it('should run example as JavaScript without errors', async function() {
+    if (useMock) {
+      this.skip(); // Examples need real Seq, skip in mock mode
+      return;
+    }
+
     this.timeout(10000);
     
     return new Promise((resolve, reject) => {
@@ -64,6 +74,11 @@ describe('Example Tests', () => {
   });
 
   it('should run example as TypeScript without errors', async function() {
+    if (useMock) {
+      this.skip(); // Examples need real Seq, skip in mock mode
+      return;
+    }
+
     this.timeout(10000);
     
     return new Promise((resolve, reject) => {

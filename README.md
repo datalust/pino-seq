@@ -73,24 +73,47 @@ The test suite includes:
 - **Integration tests** that verify round-trip logging to Seq by querying the API
 - **Example tests** that verify examples work as users would use them (via `npm link`)
 
+#### Test Modes
+
+Tests can run in two modes controlled by the `MOCK_SEQ` environment variable:
+
+**Real Seq Mode (default, `MOCK_SEQ=false`):**
+- Tests connect to actual Seq instance at `http://localhost:5341`
+- Verifies full end-to-end integration
+- Requires Seq running locally
+
+**Mock Mode (`MOCK_SEQ=true`):**
+- Tests use mock transport instead of real Seq
+- No Seq instance required
+- Verifies code paths without network calls
+- Example tests are skipped (they require real Seq)
+
 #### For Contributors (Local Development)
 
-The npm scripts provide convenient setup for local testing with Docker. You can either use these scripts or manage your own Seq instance:
-
-**Option 1: Use npm scripts (requires Docker):**
+**Option 1: Test with real Seq (recommended):**
 
 ```bash
 # Start Seq container (with health check)
 npm run test:setup
 
-# Run tests (includes TypeScript compilation and example verification)
+# Run tests with real Seq integration
 npm test
 
 # Stop Seq
 npm run test:teardown
 ```
 
-**Option 2: Manage your own Seq instance:**
+**Option 2: Test with mocks (no Docker required):**
+
+```bash
+# Run tests in mock mode
+MOCK_SEQ=true npm test
+
+# Or on Windows PowerShell:
+$env:MOCK_SEQ="true"; npm test
+```
+
+**Option 3: Manage your own Seq instance:**
 
 ```bash
 # Start Seq however you prefer (Docker, local install, etc.)
@@ -99,7 +122,7 @@ npm run test:teardown
 npm test
 ```
 
-**Type checking only (no integration tests):**
+**Build only (no tests):**
 
 ```bash
 npm run build  # Just compiles TypeScript
@@ -107,7 +130,11 @@ npm run build  # Just compiles TypeScript
 
 #### For CI/CD
 
-GitHub Actions automatically manages Seq using service containers - no Docker setup required.
+GitHub Actions runs tests in both modes:
+- **Mock mode**: Tests on Linux, Windows, macOS (9 jobs: 3 OS × 3 Node versions)
+- **Real Seq mode**: Tests on Linux only with Seq service container (3 jobs: 3 Node versions)
+
+This ensures cross-platform compatibility while maintaining full integration testing coverage.
 
 ### Running the Example
 

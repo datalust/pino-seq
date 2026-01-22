@@ -13,6 +13,7 @@ const LEVEL_NAMES: Record<number, string> = {
 export interface PinoSeqStreamConfig extends Partial<SeqLoggerConfig> {
   additionalProperties?: Record<string, any>;
   logOtherAs?: 'Verbose' | 'Debug' | 'Information' | 'Warning' | 'Error' | 'Fatal';
+  _testLogger?: any; // Internal: for testing only, allows injecting a mock logger
 }
 
 interface PinoLogEvent {
@@ -38,22 +39,28 @@ export class PinoSeqStream extends Writable {
   constructor(config?: PinoSeqStreamConfig) {
     super();
 
-    const { additionalProperties, logOtherAs, ...loggerConfig } = config || {};
+    const { additionalProperties, logOtherAs, _testLogger, ...loggerConfig } = config || {};
     
-    const onError = (loggerConfig as SeqLoggerConfig).onError || ((e: Error) => {
-      console.error('[PinoSeqStream]', e);
-    });
-
-    const configWithDefaults: SeqLoggerConfig = {
-      ...loggerConfig,
-      onError
-    };
-
     this._additionalProperties = additionalProperties;
     this._logOtherAs = logOtherAs;
     this._bufferTime = false;
     this._buffer = [];
-    this._logger = new SeqLogger(configWithDefaults);
+
+    // Allow injecting a mock logger for testing
+    if (_testLogger) {
+      this._logger = _testLogger;
+    } else {
+      const onError = (loggerConfig as SeqLoggerConfig).onError || ((e: Error) => {
+        console.error('[PinoSeqStream]', e);
+      });
+
+      const configWithDefaults: SeqLoggerConfig = {
+        ...loggerConfig,
+        onError
+      };
+
+      this._logger = new SeqLogger(configWithDefaults);
+    }
   }
 
   _write(message: Buffer | string, enc: string, cb: (error?: Error | null) => void): void {
