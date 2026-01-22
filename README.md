@@ -2,21 +2,165 @@
 
 A stream to send [Pino](https://github.com/pinojs/pino) events to [Seq](https://datalust.co/seq). Tested with Node.js versions 18.x and up.
 
-Use the `createStream()` method to create a Pino stream configuration, passing `serverUrl`, `apiKey` and batching parameters.
+**Now written in TypeScript** with automatic type definitions and full ES Module support!
 
-```js
-import pino from 'pino';
-import pinoToSeq from 'pino-seq';
+## Installation
 
-let stream = pinoToSeq.createStream({ serverUrl: 'http://localhost:5341' });
-let logger = pino({ name: 'pino-seq example' }, stream);
-
-logger.info('Hello Seq, from Pino');
-
-let frLogger = logger.child({ lang: 'fr' });
-frLogger.warn('au reviour');
+```bash
+npm install pino-seq
 ```
 
-### Acknowledgements
+## Usage
+
+Use the `createStream()` method to create a Pino stream configuration, passing `serverUrl`, `apiKey` and batching parameters.
+
+This example works in both JavaScript and TypeScript projects:
+
+```javascript
+import pino from 'pino';
+import { createStream } from 'pino-seq';
+
+// Create a stream to Seq
+const stream = createStream({ 
+  serverUrl: 'http://localhost:5341',
+  apiKey: 'your-api-key' // optional
+});
+
+// Create a Pino logger
+const logger = pino({ name: 'pino-seq example' }, stream);
+
+// Log some messages
+logger.info('Hello Seq, from Pino');
+
+// Child loggers work too
+const frLogger = logger.child({ lang: 'fr' });
+frLogger.warn('au reviour');
+
+// Flush logs before exit
+await stream.flush();
+```
+
+For TypeScript projects with explicit typing:
+
+```typescript
+import { createStream, PinoSeqStreamConfig } from 'pino-seq';
+
+const config: PinoSeqStreamConfig = {
+  serverUrl: 'http://localhost:5341',
+  // ... see Configuration section below for all options
+};
+const stream = createStream(config);
+```
+
+## Configuration
+
+The `createStream()` function accepts a configuration object with the following properties:
+
+- `serverUrl` (string): The URL of your Seq server
+- `apiKey` (string, optional): API key for authentication
+- `logOtherAs` (string, optional): Log level for unstructured messages ('Verbose', 'Debug', 'Information', 'Warning', 'Error', 'Fatal')
+- `additionalProperties` (object, optional): Additional properties to add to all log events
+- `maxBatchingTime` (number, optional): Maximum time in milliseconds to wait before sending a batch
+- `eventSizeLimit` (number, optional): Maximum size of a single event
+- `batchSizeLimit` (number, optional): Maximum size of a batch
+- `onError` (function, optional): Error handler callback
+
+## Development
+
+### Running Tests
+
+The test suite includes:
+- **Integration tests** that verify round-trip logging to Seq by querying the API
+- **Example tests** that verify examples work as users would use them (via `npm link`)
+
+#### Test Modes
+
+Tests can run in two modes controlled by the `MOCK_SEQ` environment variable:
+
+**Real Seq Mode (default, `MOCK_SEQ=false`):**
+- Tests connect to actual Seq instance at `http://localhost:5341`
+- Verifies full end-to-end integration
+- Requires Seq running locally
+
+**Mock Mode (`MOCK_SEQ=true`):**
+- Tests use mock transport instead of real Seq
+- No Seq instance required
+- Verifies code paths without network calls
+- Example tests are skipped (they require real Seq)
+
+#### For Contributors (Local Development)
+
+**Option 1: Test with real Seq (recommended):**
+
+```bash
+# Start Seq container (with health check)
+npm run test:setup
+
+# Run tests with real Seq integration
+npm test
+
+# Stop Seq
+npm run test:teardown
+```
+
+**Option 2: Test with mocks (no Docker required):**
+
+```bash
+# Run tests in mock mode
+MOCK_SEQ=true npm test
+
+# Or on Windows PowerShell:
+$env:MOCK_SEQ="true"; npm test
+```
+
+**Option 3: Manage your own Seq instance:**
+
+```bash
+# Start Seq however you prefer (Docker, local install, etc.)
+# Ensure it's running on http://localhost:5341
+
+npm test
+```
+
+**Build only (no tests):**
+
+```bash
+npm run build  # Just compiles TypeScript
+```
+
+#### For CI/CD
+
+GitHub Actions runs tests in both modes:
+- **Mock mode**: Tests on Linux, Windows, macOS (9 jobs: 3 OS × 3 Node versions)
+- **Real Seq mode**: Tests on Linux only with Seq service container (3 jobs: 3 Node versions)
+
+This ensures cross-platform compatibility while maintaining full integration testing coverage.
+
+### Running the Example
+
+```bash
+# Start Seq
+npm run test:setup
+
+# Run the example
+npm start
+
+# View logs at http://localhost:5341
+
+# Stop Seq
+npm run test:teardown
+```
+
+### Building
+
+```bash
+npm run build
+```
+
+The build uses the TypeScript compiler (`tsc`) to produce ES Module output in the `dist/` directory with automatic type definitions.
+
+**Note:** This package is ESM-only (like its dependency `seq-logging`). If you need CommonJS support, please use version 2.x or earlier.
+
+## Acknowledgements
 
 Originally by Simi Hartstein and published as `simihartstein/pino-seq`; maintainership transferred to Datalust at version 0.5.

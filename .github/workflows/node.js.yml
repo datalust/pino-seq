@@ -10,9 +10,9 @@ on:
     branches: [ dev ]
 
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
+  test-mock:
+    name: Test with Mock (Node ${{ matrix.node-version }}, ${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
@@ -20,11 +20,41 @@ jobs:
         os: [ubuntu-latest, windows-latest, macOS-latest]
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
-    - run: npm run build --if-present
+    - run: npm run build
+    - run: npm test
+      env:
+        MOCK_SEQ: true
+
+  test-seq:
+    name: Test with Seq (Node ${{ matrix.node-version }})
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x, 22.x]
+
+    services:
+      seq:
+        image: datalust/seq:latest
+        ports:
+          - 5341:80
+          - 5342:5342
+        env:
+          ACCEPT_EULA: Y
+          SEQ_FIRSTRUN_NOAUTHENTICATION: True
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm ci
+    - run: npm run build
     - run: npm test

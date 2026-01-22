@@ -1,0 +1,34 @@
+# Docker Compose for Integration Testing
+#
+# This configuration enables real integration testing of pino-seq with an actual
+# Seq instance, rather than just type checking or mocks. The health check ensures
+# Seq is fully ready to accept logs before tests run.
+#
+# Usage:
+#   docker compose up -d --wait    # Start and wait for healthy
+#   npm test                        # Run integration tests
+#   docker compose down             # Clean up
+#
+# The integration tests verify:
+#   - Round-trip logging (logs actually reach Seq)
+#   - Event properties (trace_id, span_id, errors)
+#   - Child logger support
+#   - Examples work as installed packages
+
+services:
+  seq:
+    image: datalust/seq:latest
+    ports:
+      - "5341:80"
+      - "5342:5342"
+    environment:
+      - ACCEPT_EULA=Y
+      - SEQ_FIRSTRUN_NOAUTHENTICATION=True
+    restart: unless-stopped
+    healthcheck:
+      # Uses shell TCP to check /health endpoint (curl/wget not available in image)
+      test: ["CMD-SHELL", "(echo -e 'GET /health HTTP/1.1\\r\\nHost: localhost\\r\\n\\r\\n' | timeout 2 bash -c 'cat > /dev/tcp/localhost/80' && sleep 0.1) || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
