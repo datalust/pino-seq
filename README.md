@@ -73,7 +73,11 @@ The test suite includes:
 - **Integration tests** that verify round-trip logging to Seq by querying the API
 - **Example tests** that verify examples work as users would use them (via `npm link`)
 
-**With local Seq instance** (recommended - tests actual integration):
+#### For Contributors (Local Development)
+
+The npm scripts provide convenient setup for local testing with Docker. You can either use these scripts or manage your own Seq instance:
+
+**Option 1: Use npm scripts (requires Docker):**
 
 ```bash
 # Start Seq container (with health check)
@@ -86,13 +90,24 @@ npm test
 npm run test:teardown
 ```
 
-**Without Seq** (type checking only):
+**Option 2: Manage your own Seq instance:**
+
+```bash
+# Start Seq however you prefer (Docker, local install, etc.)
+# Ensure it's running on http://localhost:5341
+
+npm test
+```
+
+**Type checking only (no integration tests):**
 
 ```bash
 npm run build  # Just compiles TypeScript
 ```
 
+#### For CI/CD
 
+GitHub Actions automatically manages Seq using service containers - no Docker setup required.
 
 ### Running the Example
 
