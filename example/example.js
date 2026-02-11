@@ -1,12 +1,24 @@
-"use strict";
+// This example works in both JavaScript and TypeScript projects
+// For TypeScript: rename to .ts or use as-is (types will be inferred)
 
 import pino from 'pino';
-import pinoToSeq from '../index.js';
+import { createStream } from 'pino-seq';
 
-let stream = pinoToSeq.createStream({serverUrl: "http://localhost:5341"});
-let logger = pino({name: "pino-seq example"}, stream);
+// Create a stream to Seq
+const stream = createStream({ 
+  serverUrl: 'http://localhost:5341',
+  apiKey: 'your-api-key' // optional
+});
 
-logger.info("Hello Seq, from Pino");
+// Create a Pino logger
+const logger = pino({ name: 'pino-seq example' }, stream);
 
-let frLogger = logger.child({lang: "fr"});
-frLogger.warn("au reviour");
+// Log some messages
+logger.info('Hello Seq, from Pino');
+
+// Child loggers work too
+const frLogger = logger.child({ lang: 'fr' });
+frLogger.warn('au reviour');
+
+// Flush logs before exit
+await stream.flush();
