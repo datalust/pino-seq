@@ -1,38 +1,45 @@
+# Builds and tests the package. Successful runs on `main` trigger `publish.yml`,
+# which publishes the package tarball uploaded by this workflow.
+
 name: CI
 
 on:
   push:
-    branches: [ dev ]
+    branches: [ dev, main ]
   pull_request:
-    branches: [ dev ]
+    branches: [ dev, main ]
+
+permissions:
+  contents: read
 
 jobs:
-  test-seq:
-    name: Build and Test
+  build:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
-        node-version: [18.x, 20.x, 22.x]
-
-    services:
-      seq:
-        image: datalust/seq:latest
-        ports:
-          - 5341:80
-          - 5342:5342
-        env:
-          ACCEPT_EULA: Y
-          SEQ_FIRSTRUN_NOAUTHENTICATION: True
-
+        node-version: [22.x, 24.x, 26.x]
     steps:
-    - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-    - run: npm ci
-    - run: npm run build
-    - run: npm test
-    - run: npm run test:integration
-    - run: cd example && npm link && node example.js
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: docker run -d --name seq -e ACCEPT_EULA=Y -e SEQ_FIRSTRUN_NOAUTHENTICATION=true -p 5341:80 datalust/seq:latest
+      - run: npm ci
+      - run: npm run build
+      - name: Wait for Seq
+        run: curl --silent --fail --retry 30 --retry-delay 1 --retry-all-errors http://localhost:5341/api > /dev/null
+      - run: npm test
+      - run: npm run test:integration
+      - run: cd example && npm link && node example.js
+      # The package is only packed once, from the same Node version `publish.yml` uses
+      - name: Pack
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && matrix.node-version == '24.x'
+        run: npm pack
+      - name: Upload package
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && matrix.node-version == '24.x'
+        uses: actions/upload-artifact@v4
+        with:
+          name: package
+          path: '*.tgz'
+          if-no-files-found: error
