@@ -1,6 +1,6 @@
 {
   "name": "pino-seq",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "description": "A stream that sends Pino log events to Seq",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -38,19 +38,18 @@
   },
   "homepage": "https://github.com/datalust/pino-seq#readme",
   "devDependencies": {
-    "@types/node": "^25.0.6",
-    "mocha": "^11.7.4",
-    "pino": "^10.1.1",
-    "tsx": "^4.20.6",
-    "typescript": "^5.9.3"
+    "@types/node": "^26.6.10",
+    "mocha": "^12.0.3",
+    "pino": "^10.4.0",
+    "typescript": "^7.0.2"
   },
   "dependencies": {
-    "seq-logging": "^3.0.0"
+    "seq-logging": "^3.2.1"
   },
   "peerDependencies": {
     "pino": "10.x"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=22.0.0"
   }
 }
